@@ -105,6 +105,69 @@ projectSchema.virtual("milestoneCount").get(function () {
 
 // ====================== MIDDLEWARE ======================
 
+// Auto-generate project key if not set
+projectSchema.pre("save", async function () {
+  if (!this.key && this.projectName) {
+    // Generate base key from project name
+    const words = this.projectName
+      .trim()
+      .split(/\s+/)
+      .filter((word: string) => word.length > 0)
+      .map((word: string) => word.replace(/[^A-Za-z0-9]/g, "").toUpperCase())
+      .filter((word: string) => word.length > 0);
+
+    let baseKey = "";
+    if (words.length === 0) {
+      baseKey = "PROJ";
+    } else {
+      // Take first letters of each word up to 10 characters
+      let charIndex = 0;
+      while (baseKey.length < 10 && charIndex < 10) {
+        for (const word of words) {
+          if (baseKey.length >= 10) break;
+          if (charIndex < word.length) {
+            baseKey += word[charIndex];
+          }
+        }
+        charIndex++;
+      }
+      // Ensure minimum 2 characters
+      baseKey =
+        baseKey.length < 2 ? baseKey.padEnd(2, "X") : baseKey.slice(0, 10);
+    }
+
+    // Check for uniqueness and append number if needed
+    let finalKey = baseKey;
+    let suffix = 1;
+    let isUnique = false;
+
+    while (!isUnique && suffix <= 99) {
+      const existing = await mongoose
+        .model("Project")
+        .findOne({ key: finalKey })
+        .select("_id")
+        .lean();
+
+      if (!existing) {
+        isUnique = true;
+      } else {
+        // Try with numeric suffix
+        const maxLength = 10 - String(suffix).length;
+        finalKey = baseKey.slice(0, maxLength) + suffix;
+        suffix++;
+      }
+    }
+
+    if (!isUnique) {
+      throw new Error(
+        `Unable to generate unique key for project: ${this.projectName}`
+      );
+    }
+
+    this.key = finalKey;
+  }
+});
+
 // Virtual to populate project members (opt-in via .populate('members'))
 projectSchema.virtual("members", {
   ref: "ProjectMember",

@@ -11,6 +11,10 @@ const UserRouter = Router();
 /**
  * GET /api/user/metrics - Get dashboard metrics for authenticated user (requires auth)
  */
-UserRouter.get("/metrics", authMiddleware, getMyMetricsController);
+UserRouter.get(
+  "/metrics/:organisationId",
+  authMiddleware,
+  getMyMetricsController
+);
 
 export default UserRouter;

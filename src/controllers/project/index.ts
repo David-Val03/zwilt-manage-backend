@@ -4,3 +4,4 @@ export * from "./getProject.controller";
 export * from "./getMyProjects.controller";
 export * from "./updateProject.controller";
 export * from "./deleteProject.controller";
+export * from "./getSignedUrl.controller";

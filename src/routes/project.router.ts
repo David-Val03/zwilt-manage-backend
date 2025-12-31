@@ -10,6 +10,7 @@ import {
   getProjectMembersController,
   updateProjectMemberRoleController,
   removeProjectMemberController,
+  getSignedUrlController,
 } from "../controllers";
 import { authMiddleware } from "../middleware/auth";
 
@@ -23,6 +24,11 @@ export const ProjectRouter = Router();
  * GET /api/projects/my - Get projects I'm a member of (requires auth)
  */
 ProjectRouter.get("/my", authMiddleware, getMyProjectsController);
+
+/**
+ * GET /api/projects/signed-url - Get S3 signed URL for upload
+ */
+ProjectRouter.post("/signed-url", authMiddleware, getSignedUrlController);
 
 /**
  * GET /api/projects - Get all projects

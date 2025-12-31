@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { MILESTONE_STATUSES, MilestoneStatus } from "../../utils/constants";
 import { IMilestone } from "./Milestone.types";
 
 // ====================== MILESTONE SCHEMA ======================
@@ -48,10 +49,10 @@ const milestoneSchema = new Schema<IMilestone>(
     status: {
       type: String,
       enum: {
-        values: ["PLANNED", "ACTIVE", "COMPLETED", "CANCELLED"],
+        values: MILESTONE_STATUSES,
         message: "{VALUE} is not a valid milestone status",
       },
-      default: "PLANNED",
+      default: MilestoneStatus.NOT_STARTED,
       required: true,
       index: true,
     },

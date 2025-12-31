@@ -58,6 +58,17 @@ export enum ProjectStatus {
 export type ProjectStatusType = `${ProjectStatus}`;
 
 /**
+ * Milestone status constants
+ */
+export enum MilestoneStatus {
+  NOT_STARTED = "NOT STARTED",
+  IN_PROGRESS = "IN PROGRESS",
+  COMPLETED = "COMPLETED",
+  CLOSED = "CLOSED",
+}
+export type MilestoneStatusType = `${MilestoneStatus}`;
+
+/**
  * Enum values as arrays for Mongoose schemas
  */
 export const TICKET_STATUSES = Object.values(TicketStatus);
@@ -65,6 +76,7 @@ export const TICKET_PRIORITIES = Object.values(TicketPriority);
 export const TICKET_TYPES = Object.values(TicketType);
 export const SPRINT_STATUSES = Object.values(SprintStatus);
 export const PROJECT_STATUSES = Object.values(ProjectStatus);
+export const MILESTONE_STATUSES = Object.values(MilestoneStatus);
 
 /**
  * HTTP status codes

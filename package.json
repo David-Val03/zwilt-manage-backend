@@ -25,6 +25,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.958.0",
+    "@aws-sdk/s3-request-presigner": "^3.958.0",
     "@r5v/mongoose-paginate": "^1.0.7",
     "body-parser": "^2.2.1",
     "cookie-parser": "^1.4.7",

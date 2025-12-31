@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { MilestoneStatusType } from "../../utils/constants";
 
 export interface IMilestone extends Document {
   name: string;
@@ -6,7 +7,7 @@ export interface IMilestone extends Document {
   project: string; // Reference to Project (stored as string ID)
   startDate?: Date;
   endDate?: Date;
-  status: "PLANNED" | "ACTIVE" | "COMPLETED" | "CANCELLED";
+  status: MilestoneStatusType;
   createdBy: string; // Reference to User (stored as string ID)
   createdAt: Date;
   updatedAt: Date;
